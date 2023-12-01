@@ -1,43 +1,37 @@
 CTFd._internal.challenge.data = undefined
-
 CTFd._internal.challenge.renderer = CTFd.lib.markdown();
-
-
 CTFd._internal.challenge.preRender = function() {}
 
 CTFd._internal.challenge.render = function(markdown) {
-
     return CTFd._internal.challenge.renderer.render(markdown)
 }
 
-
-CTFd._internal.challenge.postRender = function() {}
-
+CTFd._internal.challenge.postRender = function() {};
 
 CTFd._internal.challenge.submit = function(preview) {
-    var challenge_id = parseInt(CTFd.lib.$('#challenge-id').val())
-    var submission = CTFd.lib.$('#challenge-input').val()
+  var challenge_id = parseInt(CTFd.lib.$("#challenge-id").val());
+  var submission = CTFd.lib.$("#challenge-input").val();
 
-    var body = {
-        'challenge_id': challenge_id,
-        'submission': submission,
-    }
-    var params = {}
-    if (preview) {
-        params['preview'] = true
-    }
+  var body = {
+    challenge_id: challenge_id,
+    submission: submission
+  };
+  var params = {};
+  if (preview) {
+    params["preview"] = true;
+  }
 
-    return CTFd.api.post_challenge_attempt(params, body).then(function(response) {
-        if (response.status === 429) {
-            // User was ratelimited but process response
-            return response
-        }
-        if (response.status === 403) {
-            // User is not logged in or CTF is paused.
-            return response
-        }
-        return response
-    })
+  return CTFd.api.post_challenge_attempt(params, body).then(function(response) {
+    if (response.status === 429) {
+      // User was ratelimited but process response
+      return response;
+    }
+    if (response.status === 403) {
+      // User is not logged in or CTF is paused.
+      return response;
+    }
+    return response;
+  });
 };
 
 function get_docker_status(container,challenge_id) {
@@ -85,6 +79,21 @@ function start_container(container, challenge_id) {
             });
             $(get_docker_status(container, challenge_id));
         });
+}
+
+function stop_container(container, challenge_id) {
+    $('#docker_container').html('<div class="text-center"><i class="fas fa-circle-notch fa-spin fa-1x"></i></div>');
+    $.get("/api/v1/container", { 'id': challenge_id }, function(result) {
+            get_docker_status(container, challenge_id);
+    })
+    .fail(function(jqxhr, settings, ex) {
+        ezal({
+            title: "Attention!",
+            body: "You can only revert a container once per 5 minutes! Please be patient.",
+            button: "Got it!"
+        });
+        $(get_docker_status(container, challenge_id));
+    });
 }
 
 var modal =
