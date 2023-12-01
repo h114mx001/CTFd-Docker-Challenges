@@ -38,6 +38,8 @@ This plugin for CTFd will allow your competing teams/users to start dockerized i
 * Support for client side validation TLS docker api connections (HIGHLY RECOMMENDED).
 * Docker container kill on solve.
 * (Mostly) Seamless integration with CTFd.
+* Work with CTFd plugin `dynamic_challenges`. 
+* Provide a quick way to apply TLS to your Docker Daemon.
 * **Untested**: _Should_ be able to seamlessly integrate with other challenge types.
 
 ## Installation / Configuration
@@ -52,9 +54,13 @@ This plugin for CTFd will allow your competing teams/users to start dockerized i
 * Confirm users are able to start/revert and access docker challenges.
 * Host an awesome CTF!
 
-### For TLS Docker Secure Connections
+## For TLS Docker Secure Connections
 
 Please do not use raw HTTP Docker Daemon. Attackers can take advantage to gain access to your server via pulling images & running arbitrary command. You can look at the [SECURE_DOCKER_TLS](SECURE_DOCKER_TLS.md) file for more information on how to secure your Docker Daemon.
+
+## For Dynamic Challenges
+
+When creating new challenges, you can use `docker_dynamic` as the type of the challenges. 
 
 ### Update: 20210206
 Works with 3.2.1
