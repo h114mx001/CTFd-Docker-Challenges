@@ -1,9 +1,8 @@
 # CTFd Docker Plugin
 This plugin for CTFd will allow your competing teams/users to start dockerized images for presented challenges. It adds a challenge type "docker" that can be assigned a specific docker image/tag. A few notable requirements:
 
-* Docker Config must be set first. You can access this via `/admin/docker_config`. Currently supported config is pure http (no encryption/authentication) or full TLS with client certificate validation. Configuration information for TLS can be found here: https://docs.docker.com/engine/security/https/
+* Docker Config must be set first. You can access this via `/admin/docker_config`. Currently supported config is pure http (no encryption/authentication) or full TLS with client certificate validation. Configuration information for TLS can be found here: https://docs.docker.com/engine/security/https/.
 * This plugin is written so that challenges are stored by tags. For example, StormCTF stores all docker challenges for InfoSeCon2019 in the `stormctf/infosecon2019` repository. A challenge example would be `stormctf/infosecon2019:arbit`. This is how you would call the challenge when creating a new challenge.
-
 
 ## Important Notes
 
@@ -53,12 +52,17 @@ This plugin for CTFd will allow your competing teams/users to start dockerized i
 * Confirm users are able to start/revert and access docker challenges.
 * Host an awesome CTF!
 
+### For TLS Docker Secure Connections
+
+Please do not use raw HTTP Docker Daemon. Attackers can take advantage to gain access to your server via pulling images & running arbitrary command. You can look at the [SECURE_DOCKER_TLS](SECURE_DOCKER_TLS.md) file for more information on how to secure your Docker Daemon.
+
 ### Update: 20210206
 Works with 3.2.1
-
 * Updated the entire plugin to work with the new CTFd.
 
 #### Credits
 
 * https://github.com/offsecginger (Twitter: @offsec_ginger)
 * Jaime Geiger (For Original Plugin assistance) (Twitter: @jgeigerm)
+* @underrobyn (For his awesome refactored code)
+* @AlexisAhmed (For his `secure-docker-daemon.sh` script)
